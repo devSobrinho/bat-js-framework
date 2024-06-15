@@ -1,4 +1,4 @@
-import { TExecAppMethods } from "../utils/exec-single-dep.util";
+import { TExecAppMethods } from "../configs/route-handler-configurator.config";
 
 type ControllerData = {
   path: string;

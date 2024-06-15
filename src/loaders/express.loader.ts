@@ -5,9 +5,9 @@ import morgan from "morgan";
 import { rateLimitConfig } from "../configs/rate-limit.config";
 import { HttpException } from "../common/exceptions/http.exception";
 import { app } from "../app";
-import { ExampleController } from "../controllers/example.controller";
+import { ExampleController } from "../examples/controllers/example.controller";
 import { registerRoutes } from "./register-routes.loader";
-import { OtherController } from "../controllers/other.controller";
+import { OtherController } from "../examples/controllers/other.controller";
 
 export class ExpressLoader {
   public static async init(): Promise<void> {
