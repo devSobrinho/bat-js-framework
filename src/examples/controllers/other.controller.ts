@@ -12,7 +12,7 @@ export class OtherController {
   }
 
   @Get("d")
-  getD(@Res() res: Response, @Req() req: Request) {
+  getD(@Req() req: Request, @Res() res: Response) {
     res.json({ data: "OtherController getD" });
   }
 }
