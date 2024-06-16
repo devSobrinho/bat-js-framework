@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node src/app.ts",
+    "build": "tsc",
+    "start": "ts-node --project tsconfig.json ./src/app.ts",
     "plop": "plop",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -27,6 +28,7 @@
   "devDependencies": {
     "@types/cors": "^2.8.17",
     "@types/morgan": "^1.9.9",
-    "plop": "^4.0.1"
+    "plop": "^4.0.1",
+    "tsconfig-paths": "^4.2.0"
   }
 }
