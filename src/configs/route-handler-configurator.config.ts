@@ -22,16 +22,16 @@ export class RouteHandlerConfigurator {
       propertyKey: this.propertyKey,
       type: this.type,
     });
-    this.descriptor.value = this.cbResponse;
+    const originalMethod = this.descriptor.value;
+    this.descriptor.value = async (req: Request, res: Response) =>
+      this.cbResponse(req, res, originalMethod);
   }
 
   private formatPath() {
     return this.path.startsWith("/") ? this.path.slice(1) : this.path;
   }
 
-  private async cbResponse(req: Request, res: Response) {
-    const originalMethod = this.descriptor.value;
-
+  private async cbResponse(req: Request, res: Response, originalMethod: any) {
     // Chama a função original e captura o resultado
     const result = await originalMethod.call(this, req, res);
     if (!result) {
