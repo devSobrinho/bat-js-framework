@@ -17,8 +17,6 @@ export class HttpException extends Error {
     options?: HttpExceptionOptions
   ) {
     super();
-    console.log("status", status, "response", response, "options", options);
-
     this.status = status;
     this.response = response;
     this.options = options;
