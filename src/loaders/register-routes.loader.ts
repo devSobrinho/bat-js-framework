@@ -1,7 +1,10 @@
 import { Express } from "express";
 import "reflect-metadata";
 import { TExecAppMethods } from "../configs/route-handler-configurator.config";
-import { getRouterMapper } from "../metadatas/router.metada";
+import {
+  CONTROLLER_ROOT_KEY,
+  getRouterMapper,
+} from "../metadatas/router.metada";
 
 // TODO: REFATORAR
 // Array para armazenar informações sobre as rotas
@@ -16,12 +19,16 @@ export const routeMetadata: {
 export function registerRoutes(app: Express) {
   getRouterMapper().forEach((controllerData, key) => {
     console.log(`Init [CONTROLLER]: ${key.name}`);
+    const controllerRoot = controllerData.get(CONTROLLER_ROOT_KEY);
 
+    if (!controllerRoot) return;
     controllerData.forEach((data) => {
       const { path, target, propertyKey, type } = data;
+      if (propertyKey === CONTROLLER_ROOT_KEY) return;
       const originalMethod = target[propertyKey];
-
-      app[type](path, (req, res) => {
+      const pathRoot = controllerRoot.path;
+      const fullPath = pathRoot + path;
+      app[type](fullPath, (req, res) => {
         // Obtém os índices dos parâmetros req e res a partir dos metadados
         const reqIndex = Reflect.getMetadata(
           `express:req:${propertyKey}`,
@@ -42,7 +49,7 @@ export function registerRoutes(app: Express) {
       });
 
       console.log(
-        `Register-Router [CREATE]: ${type.toLocaleUpperCase()} ${path}`
+        `Register-Router [CREATE]: ${type.toLocaleUpperCase()} ${fullPath}`
       );
     });
   });
