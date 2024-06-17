@@ -39,13 +39,25 @@ export function registerRoutes(app: Express) {
           target
         );
 
+        const args = [];
+        if (reqIndex !== undefined) args[reqIndex] = req;
+        if (resIndex !== undefined) args[resIndex] = res;
+
         // Cria uma instância do target (classe) para acessar a propriedade ou método
         const instance = new target.constructor();
-        originalMethod.call(
-          instance,
-          reqIndex !== undefined ? req : req,
-          resIndex !== undefined ? res : res
-        );
+        const result = originalMethod.call(instance, ...args);
+
+        if (res !== undefined && result) {
+          if (typeof result === "string") {
+            // Verifica o tipo do resultado e envia a resposta adequada
+            res.send(result); // Envia como string
+          } else if (typeof result === "object") {
+            res.json(result); // Envia como JSON
+          } else {
+            // Se o tipo não for suportado, envia um erro 500
+            // res.status(500).send("Internal Server Error");
+          }
+        }
       });
 
       console.log(
