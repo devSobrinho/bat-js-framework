@@ -1,3 +1,5 @@
+export const REQ_PREFIX_KEY = Symbol("express:req:");
+
 // Decorator para injetar o objeto Request (req)
 export function Req() {
   return function (
@@ -6,7 +8,7 @@ export function Req() {
     parameterIndex: number
   ) {
     // Manipula a injeção de req no método
-    const metadataKey = `express:req:${propertyKey.toString()}`;
+    const metadataKey = `${REQ_PREFIX_KEY.toString()}${propertyKey.toString()}`;
     Reflect.defineMetadata(metadataKey, parameterIndex, target);
   };
 }
