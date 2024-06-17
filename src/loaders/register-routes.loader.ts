@@ -28,7 +28,7 @@ export function registerRoutes(app: Express) {
       if (propertyKey === CONTROLLER_ROOT_KEY) return;
       const originalMethod = target[propertyKey];
       const pathRoot = controllerRoot.path;
-      const fullPath = pathRoot + path;
+      const fullPath = (pathRoot + path).split("/").filter(Boolean).join("/");
       app[type](fullPath, (req, res) => {
         // Obtém os índices dos parâmetros req e res a partir dos metadados
         const reqIndex = Reflect.getMetadata(
