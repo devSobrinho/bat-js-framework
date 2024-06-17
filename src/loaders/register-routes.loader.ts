@@ -7,6 +7,10 @@ import {
   CONTROLLER_ROOT_KEY,
   getRouterMapper,
 } from "../metadatas/router.metadata";
+import { QUERY_PREFIX_KEY } from "@Common/decorators/query.decorator";
+import { BODY_PREFIX_KEY } from "@Common/decorators/body.decorator";
+import { REQ_PREFIX_KEY } from "@Common/decorators/req.decorator";
+import { RES_PREFIX_KEY } from "@Common/decorators/res.decorator";
 
 // Array para armazenar informações sobre as rotas
 export const routeMetadata: {
@@ -28,21 +32,32 @@ export function registerRoutes(app: Express) {
       if (propertyKey === CONTROLLER_ROOT_KEY) return;
       const originalMethod = target[propertyKey];
       const pathRoot = controllerRoot.path;
-      const fullPath = (pathRoot + path).split("/").filter(Boolean).join("/");
+      const fullPath =
+        "/" + (pathRoot + path).split("/").filter(Boolean).join("/");
       app[type](fullPath, (req, res) => {
         // Obtém os índices dos parâmetros req e res a partir dos metadados
         const reqIndex = Reflect.getMetadata(
-          `express:req:${propertyKey}`,
+          `${REQ_PREFIX_KEY.toString()}${propertyKey}`,
           target
         );
         const resIndex = Reflect.getMetadata(
-          `express:res:${propertyKey}`,
+          `${RES_PREFIX_KEY.toString()}${propertyKey}`,
+          target
+        );
+        const queryIndex = Reflect.getMetadata(
+          `${QUERY_PREFIX_KEY.toString()}${propertyKey}`,
+          target
+        );
+        const bodyIndex = Reflect.getMetadata(
+          `${BODY_PREFIX_KEY.toString()}${propertyKey}`,
           target
         );
 
         const args = [];
         if (reqIndex !== undefined) args[reqIndex] = req;
         if (resIndex !== undefined) args[resIndex] = res;
+        if (queryIndex !== undefined) args[queryIndex] = req.query;
+        if (bodyIndex !== undefined) args[bodyIndex] = req.body;
 
         // Cria uma instância do target (classe) para acessar a propriedade ou método
         const instance = new target.constructor();
