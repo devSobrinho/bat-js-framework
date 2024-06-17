@@ -1,3 +1,8 @@
+import {
+  generationArgControllerKeyMetadata,
+  setArgControllerMetadata,
+} from "metadatas/controller-arg.metadata";
+
 export const QUERY_PREFIX_KEY = Symbol("express:query:");
 
 // Decorator para injetar o objeto Query
@@ -7,8 +12,11 @@ export function Query() {
     propertyKey: string | symbol,
     parameterIndex: number
   ) {
-    // Manipula a injeção de res no método
-    const metadataKey = `${QUERY_PREFIX_KEY.toString()}${propertyKey.toString()}`;
-    Reflect.defineMetadata(metadataKey, parameterIndex, target);
+    const metadataKey = generationArgControllerKeyMetadata(
+      QUERY_PREFIX_KEY,
+      propertyKey,
+      target
+    );
+    setArgControllerMetadata(metadataKey, parameterIndex, target);
   };
 }
