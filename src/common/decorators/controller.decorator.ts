@@ -1,6 +1,6 @@
 import "reflect-metadata";
 
-import { initControllerMapper } from "../../metadatas/router.metada";
+import { initControllerMapper } from "../../metadatas/router.metadata";
 
 // Decorator para definir o prefixo do controlador
 export function Controller(path: string = "/") {

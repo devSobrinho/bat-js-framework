@@ -1,12 +1,13 @@
-import { Express } from "express";
 import "reflect-metadata";
+
+import { Express } from "express";
+
 import { TExecAppMethods } from "../configs/route-handler-configurator.config";
 import {
   CONTROLLER_ROOT_KEY,
   getRouterMapper,
-} from "../metadatas/router.metada";
+} from "../metadatas/router.metadata";
 
-// TODO: REFATORAR
 // Array para armazenar informações sobre as rotas
 export const routeMetadata: {
   path: string;
