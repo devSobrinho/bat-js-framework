@@ -5,23 +5,25 @@ type ControllerData = {
   target: any;
   propertyKey: string;
   type: TExecAppMethods;
+  paramtypes?: any[];
 };
 
-type TRouterMetaData = Map<any, Map<any, ControllerData>>;
+type TRouterMetadata = Map<any, Map<any, ControllerData>>;
 
 export const CONTROLLER_ROOT_KEY = "#ROOT";
 const ROUTER_MAPPER_KEY = Symbol("routerMapper");
 const globalRouterData = {};
-const routerMetadata: TRouterMetaData = new Map();
+const routerMetadata: TRouterMetadata = new Map();
 
 Reflect.defineMetadata(ROUTER_MAPPER_KEY, routerMetadata, globalRouterData);
 
-export const getRouterMapper = (): TRouterMetaData => {
+export const getRouterMapper = (): TRouterMetadata => {
   return Reflect.getMetadata(ROUTER_MAPPER_KEY, globalRouterData);
 };
 
 export const initControllerMapper = (target: any, basePath: string) => {
-  const mapperRouter: TRouterMetaData = Reflect.getMetadata(
+  const paramtypes = Reflect.getMetadata("design:paramtypes", target);
+  const mapperRouter: TRouterMetadata = Reflect.getMetadata(
     ROUTER_MAPPER_KEY,
     globalRouterData
   );
@@ -33,12 +35,13 @@ export const initControllerMapper = (target: any, basePath: string) => {
       target,
       propertyKey: CONTROLLER_ROOT_KEY,
       type: "get",
+      paramtypes,
     });
   }
 };
 
 export const getDataControllerMapper = (target: any) => {
-  const mapperRouter: TRouterMetaData = Reflect.getMetadata(
+  const mapperRouter: TRouterMetadata = Reflect.getMetadata(
     ROUTER_MAPPER_KEY,
     globalRouterData
   );
