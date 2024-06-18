@@ -1,20 +1,22 @@
 import "reflect-metadata";
 
+import { BODY_PREFIX_KEY } from "@Common/decorators/body.decorator";
+import { PARAM_PREFIX_KEY } from "@Common/decorators/param.decorator";
+import { QUERY_PREFIX_KEY } from "@Common/decorators/query.decorator";
+import { REQ_PREFIX_KEY } from "@Common/decorators/req.decorator";
+import { RES_PREFIX_KEY } from "@Common/decorators/res.decorator";
+import { dependencyContainerInstance } from "core/dependencies/container.dependency";
 import { Express, Request, Response } from "express";
+import {
+  generationArgControllerKeyMetadata,
+  getArgControllerMetadata,
+} from "metadatas/controller-arg.metadata";
 
 import { TExecAppMethods } from "../configs/route-handler-configurator.config";
 import {
   CONTROLLER_ROOT_KEY,
   getRouterMapper,
 } from "../metadatas/router.metadata";
-import { QUERY_PREFIX_KEY } from "@Common/decorators/query.decorator";
-import { BODY_PREFIX_KEY } from "@Common/decorators/body.decorator";
-import { REQ_PREFIX_KEY } from "@Common/decorators/req.decorator";
-import { RES_PREFIX_KEY } from "@Common/decorators/res.decorator";
-import {
-  generationArgControllerKeyMetadata,
-  getArgControllerMetadata,
-} from "metadatas/controller-arg.metadata";
 
 // Array para armazenar informações sobre as rotas
 export const routeMetadata: {
@@ -31,6 +33,10 @@ export function registerRoutes(app: Express) {
     const controllerRoot = controllerData.get(CONTROLLER_ROOT_KEY);
 
     if (!controllerRoot) return;
+    const pp = dependencyContainerInstance.resolveClassRecursive(
+      controllerRoot.target
+    );
+
     controllerData.forEach((data) => {
       const { path, target, propertyKey, type } = data;
       if (propertyKey === CONTROLLER_ROOT_KEY) return;
@@ -41,7 +47,7 @@ export function registerRoutes(app: Express) {
 
       app[type](fullPath, (req, res) => {
         const args: any[] = [];
-        initArgsCall(req, res, args, target, propertyKey);
+        initializeArguments(req, res, args, target, propertyKey);
         // Cria uma instância do target (classe) para acessar a propriedade ou método
         const instance = new target.constructor();
         const result = originalMethod.call(instance, ...args);
@@ -66,43 +72,36 @@ export function registerRoutes(app: Express) {
   });
 }
 
-const initArgsCall = (
+const initializeArguments = (
   req: Request,
   res: Response,
   args: any[],
   target: any,
   propertyKey: string
 ) => {
-  const reqKeyMetadata = generationArgControllerKeyMetadata(
-    REQ_PREFIX_KEY,
-    propertyKey,
-    target
-  );
-  const reqIndex = getArgControllerMetadata(reqKeyMetadata, target);
+  const requestContextMappings = [
+    { prefixKey: REQ_PREFIX_KEY, callback: req },
+    { prefixKey: RES_PREFIX_KEY, callback: res },
+    { prefixKey: PARAM_PREFIX_KEY, callback: req.params },
+    { prefixKey: QUERY_PREFIX_KEY, callback: req.query },
+    { prefixKey: BODY_PREFIX_KEY, callback: req.body },
+  ];
 
-  const resKeyMetadata = generationArgControllerKeyMetadata(
-    RES_PREFIX_KEY,
-    propertyKey,
-    target
-  );
-  const resIndex = getArgControllerMetadata(resKeyMetadata, target);
-
-  const queryKeyMetadata = generationArgControllerKeyMetadata(
-    QUERY_PREFIX_KEY,
-    propertyKey,
-    target
-  );
-  const queryIndex = getArgControllerMetadata(queryKeyMetadata, target);
-
-  const bodyKeyMetadata = generationArgControllerKeyMetadata(
-    BODY_PREFIX_KEY,
-    propertyKey,
-    target
-  );
-  const bodyIndex = getArgControllerMetadata(bodyKeyMetadata, target);
-
-  if (reqIndex !== undefined) args[reqIndex] = req;
-  if (resIndex !== undefined) args[resIndex] = res;
-  if (queryIndex !== undefined) args[queryIndex] = req.query;
-  if (bodyIndex !== undefined) args[bodyIndex] = req.body;
+  for (let index = 0; index < requestContextMappings.length; index++) {
+    const { prefixKey, callback } = requestContextMappings[index];
+    const keyMetadata = generationArgControllerKeyMetadata(
+      prefixKey,
+      propertyKey,
+      target
+    );
+    const argsController = getArgControllerMetadata(keyMetadata, target);
+    argsController.forEach((data, indexParam) => {
+      if (indexParam !== undefined) {
+        if (data?.name) args[indexParam] = callback[data.name as never];
+        else {
+          args[indexParam] = callback;
+        }
+      }
+    });
+  }
 };
