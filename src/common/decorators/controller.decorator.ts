@@ -8,7 +8,6 @@ export function Controller(path: string = "/") {
   console.info(`@Controller('${path}')`);
   // Armazena informações sobre o controlador usando Reflect.defineMetadata
   return function (target: any) {
-    // target.path = path;
     initControllerMapper(target, path);
   };
 }
