@@ -5,7 +5,6 @@ import { PARAM_PREFIX_KEY } from "@Common/decorators/param.decorator";
 import { QUERY_PREFIX_KEY } from "@Common/decorators/query.decorator";
 import { REQ_PREFIX_KEY } from "@Common/decorators/req.decorator";
 import { RES_PREFIX_KEY } from "@Common/decorators/res.decorator";
-import { dependencyContainerInstance } from "core/dependencies/container.dependency";
 import { Express, Request, Response } from "express";
 import {
   generationArgControllerKeyMetadata,
@@ -33,9 +32,6 @@ export function registerRoutes(app: Express) {
     const controllerRoot = controllerData.get(CONTROLLER_ROOT_KEY);
 
     if (!controllerRoot) return;
-    const pp = dependencyContainerInstance.resolveClassRecursive(
-      controllerRoot.target
-    );
 
     controllerData.forEach((data) => {
       const { path, target, propertyKey, type } = data;
