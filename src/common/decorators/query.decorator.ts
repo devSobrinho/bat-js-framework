@@ -6,7 +6,7 @@ import {
 export const QUERY_PREFIX_KEY = Symbol("express:query:");
 
 // Decorator para injetar o objeto Query
-export function Query() {
+export function Query(name?: string) {
   return function (
     target: any,
     propertyKey: string | symbol,
@@ -17,6 +17,6 @@ export function Query() {
       propertyKey,
       target
     );
-    setArgControllerMetadata(metadataKey, parameterIndex, target);
+    setArgControllerMetadata(metadataKey, parameterIndex, target, { name });
   };
 }
