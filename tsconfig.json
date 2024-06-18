@@ -16,6 +16,12 @@
       "@Common/*": [
         "common/*"
       ],
+      "@Config/*": [
+        "config/*"
+      ],
+      "@Core/*": [
+        "core/*"
+      ],
     }
   },
   "include": [
