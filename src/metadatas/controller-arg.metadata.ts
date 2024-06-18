@@ -1,3 +1,5 @@
+type TMetadataValueItem = Map<number, Record<string, any> | undefined>;
+
 export const generationArgControllerKeyMetadata = (
   prefix: symbol,
   propertyKey: string | symbol,
@@ -8,14 +10,21 @@ export const generationArgControllerKeyMetadata = (
   return `${prefix.toString()}${controllerName}${propertyKey.toString()}`;
 };
 
-export const getArgControllerMetadata = (metadataKey: string, target: any) => {
-  return Reflect.getMetadata(metadataKey, target);
+export const getArgControllerMetadata = (
+  metadataKey: string,
+  target: any
+): TMetadataValueItem => {
+  return Reflect.getMetadata(metadataKey, target) || new Map();
 };
 
 export const setArgControllerMetadata = (
   metadataKey: string,
   parameterIndex: number,
-  target: any
+  target: any,
+  data?: Record<string, any>
 ) => {
-  Reflect.defineMetadata(metadataKey, parameterIndex, target);
+  const metadataValue = getArgControllerMetadata(metadataKey, target);
+  metadataValue?.set(parameterIndex, data);
+
+  Reflect.defineMetadata(metadataKey, metadataValue, target);
 };
