@@ -17,6 +17,8 @@ import {
   CONTROLLER_ROOT_KEY,
   getRouterMapper,
 } from "../metadatas/router.metadata";
+import { ExampleController } from "examples/controllers/example.controller";
+import { OtherController } from "examples/controllers/other.controller";
 
 // Array para armazenar informações sobre as rotas
 export const routeMetadata: {
@@ -28,7 +30,11 @@ export const routeMetadata: {
 
 // Função para registrar todas as rotas no app
 export function registerRoutes(app: Express) {
-  getRouterMapper().forEach((controllerData, key) => {
+  // Initialize all controllers
+  [ExampleController, OtherController];
+
+  const allRoutesMapper = getRouterMapper();
+  allRoutesMapper.forEach((controllerData, key) => {
     console.log(`Init [CONTROLLER]: ${key.name}`);
     const controllerRoot = controllerData.get(CONTROLLER_ROOT_KEY);
 
