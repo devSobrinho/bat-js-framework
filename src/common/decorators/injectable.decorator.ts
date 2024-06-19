@@ -5,7 +5,6 @@ import { dependencyContainerInstance } from "core/dependencies/container.depende
 export function Injectable() {
   console.info(`@Injectable() INIT`);
   return function (target: any) {
-    // initDependenciesMapper(target);
     dependencyContainerInstance.register(target, target);
   };
 }
