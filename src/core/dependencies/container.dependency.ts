@@ -1,44 +1,47 @@
+import "reflect-metadata";
+
 export class DependencyContainer {
-  static dependency = new Map();
+  private static dependencies = new Map();
+  private static instances: Map<any, any> = new Map();
 
   register<T = any>(token: T | string, dependency: T) {
-    DependencyContainer.dependency.set(token, dependency);
+    DependencyContainer.dependencies.set(token, dependency);
   }
 
   resolve<T = any>(token: T | string): T {
-    const dependency = DependencyContainer.dependency.get(token);
+    const dependency = DependencyContainer.dependencies.get(token);
     if (!dependency) {
-      const name = token?.["name" as never] || token;
+      const name = typeof token === "string" ? token : (token as any)?.name;
       throw new Error(`No dependency found for token ${name}`);
     }
     return dependency;
   }
 
-  resolveClass(target: any) {
+  resolveClass(target: any, resolving: Set<any> = new Set()): any {
+    if (DependencyContainer.instances.has(target)) {
+      return DependencyContainer.instances.get(target);
+    }
+
+    if (resolving.has(target)) {
+      // TODO: implementar forwardRef
+
+      throw new Error(`Circular dependency detected: ${target.name}`);
+    }
+    resolving.add(target);
+
     const paramTypes = Reflect.getMetadata("design:paramtypes", target) || [];
     const dependencies = paramTypes.map((paramType: any) =>
-      this.resolve(paramType.name)
+      this.resolveClass(paramType, resolving)
     );
 
-    return new target(...dependencies);
+    const instance = new target(...dependencies);
+    DependencyContainer.instances.set(target, instance);
+    resolving.delete(target);
+    return instance;
   }
 
-  resolveClassRecursive(target: any) {
-    const paramTypes = Reflect.getMetadata("design:paramtypes", target) || [];
-    const dependencies = paramTypes?.map((paramType: any) => {
-      const subTarget = this.resolveClassRecursive(paramType);
-      console.log(">>>,paramType", paramType, subTarget);
-      if (subTarget) {
-        const instancy =
-          this.resolve(paramType) || this.resolve(paramType.name);
-        return new instancy();
-      } else {
-        console.log("paramType ERROR:", paramType);
-        return;
-      }
-    });
-
-    return new target(...dependencies.filter(Boolean));
+  resolveClassRecursive(target: any): any {
+    return this.resolveClass(target);
   }
 }
 
