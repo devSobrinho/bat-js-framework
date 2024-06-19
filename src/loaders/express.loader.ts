@@ -1,13 +1,12 @@
-import express, { NextFunction, Request, Response } from "express";
 import cors from "cors";
+import express, { NextFunction, Request, Response } from "express";
 import helmet from "helmet";
 import morgan from "morgan";
-import { rateLimitConfig } from "../configs/rate-limit.config";
-import { HttpException } from "../common/exceptions/http.exception";
+
 import { app } from "../app";
-import { ExampleController } from "../examples/controllers/example.controller";
+import { HttpException } from "../common/exceptions/http.exception";
+import { rateLimitConfig } from "../configs/rate-limit.config";
 import { registerRoutes } from "./register-routes.loader";
-import { OtherController } from "../examples/controllers/other.controller";
 
 export class ExpressLoader {
   public static async init(): Promise<void> {
@@ -17,10 +16,6 @@ export class ExpressLoader {
     app.use(helmet());
     app.use(morgan("dev"));
     app.use(rateLimitConfig);
-
-    // ExampleController is a class that contains routes
-    new ExampleController();
-    new OtherController();
 
     registerRoutes(app);
 
