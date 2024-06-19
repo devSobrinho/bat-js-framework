@@ -12,7 +12,7 @@ import { Request, Response } from "express";
 @Controller("/example")
 export class ExampleController {
   constructor(
-    @Inject(ExampleService)
+    // @Inject(ExampleService)
     public exampleService: ExampleService
   ) {
     // console.log("ExampleController constructor", this.exampleService);
