@@ -15,12 +15,12 @@ export class ExampleController {
     @Inject(ExampleService)
     public exampleService: ExampleService
   ) {
-    console.log("ExampleController constructor", this.exampleService);
+    // console.log("ExampleController constructor", this.exampleService);
   }
 
   @Get("a/:id")
-  getA(@Query() query: any) {
-    return { message: "Hello World", query };
+  getA(@Req() res: Response, @Query() query: any, req: Request) {
+    return this.exampleService.getA(query);
   }
 
   @Post("b")
@@ -29,7 +29,7 @@ export class ExampleController {
   }
 
   getBas(...args: any[]) {
-    console.log(args[0], args[1]);
+    // console.log(args[0], args[1]);
   }
 
   @Delete("c")
