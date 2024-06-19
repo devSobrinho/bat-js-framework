@@ -1,10 +1,14 @@
 import "reflect-metadata";
 
 export class DependencyContainer {
-  private static dependencies = new Map();
+  static dependencies = new Map();
   private static instances: Map<any, any> = new Map();
 
   register<T = any>(token: T | string, dependency: T) {
+    if (DependencyContainer.dependencies.has(token)) {
+      // throw new Error(`Dependency already registered for token ${token}`);
+      return;
+    }
     DependencyContainer.dependencies.set(token, dependency);
   }
 
