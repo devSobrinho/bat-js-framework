@@ -1,10 +1,13 @@
 import { Injectable } from "@Common/decorators/injectable.decorator";
+import { ExampleRepository } from "examples/repositories/example.repository";
 import { Request, Response } from "express";
 
 @Injectable()
 export class ExampleService {
-  getA(query: any) {
-    return { message: "Hello World", query };
+  constructor(private readonly exampleRepository: ExampleRepository) {}
+
+  getA(data: any) {
+    return this.exampleRepository.get(data);
   }
 
   getB(res: Response, req: Request) {
