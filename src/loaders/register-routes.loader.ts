@@ -5,6 +5,7 @@ import { PARAM_PREFIX_KEY } from "@Common/decorators/param.decorator";
 import { QUERY_PREFIX_KEY } from "@Common/decorators/query.decorator";
 import { REQ_PREFIX_KEY } from "@Common/decorators/req.decorator";
 import { RES_PREFIX_KEY } from "@Common/decorators/res.decorator";
+import { dependencyContainerInstance } from "@Core/dependencies/container.dependency";
 import { Express, Request, Response } from "express";
 import {
   generationArgControllerKeyMetadata,
@@ -25,7 +26,7 @@ export const routeMetadata: {
   type: TExecAppMethods;
 }[] = [];
 
-// Função para registrar todas as rotas no aplicativo Express
+// Função para registrar todas as rotas no app
 export function registerRoutes(app: Express) {
   getRouterMapper().forEach((controllerData, key) => {
     console.log(`Init [CONTROLLER]: ${key.name}`);
@@ -41,11 +42,14 @@ export function registerRoutes(app: Express) {
       const fullPath =
         "/" + (pathRoot + path).split("/").filter(Boolean).join("/");
 
+      // Cria uma instância do controlador e resolve suas dependências
+      const instance = dependencyContainerInstance.resolveClassRecursive(
+        target.constructor
+      );
+
       app[type](fullPath, (req, res) => {
         const args: any[] = [];
         initializeArguments(req, res, args, target, propertyKey);
-        // Cria uma instância do target (classe) para acessar a propriedade ou método
-        const instance = new target.constructor();
         const result = originalMethod.call(instance, ...args);
 
         if (res !== undefined && result) {
