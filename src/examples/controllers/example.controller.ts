@@ -1,7 +1,6 @@
 import { Controller } from "@Common/decorators/controller.decorator";
 import { Delete } from "@Common/decorators/delete.decorator";
 import { Get } from "@Common/decorators/get.decorator";
-import { Inject } from "@Common/decorators/inject.decorator";
 import { Post } from "@Common/decorators/post.decorator";
 import { Query } from "@Common/decorators/query.decorator";
 import { Req } from "@Common/decorators/req.decorator";
@@ -11,12 +10,7 @@ import { Request, Response } from "express";
 
 @Controller("/example")
 export class ExampleController {
-  constructor(
-    // @Inject(ExampleService)
-    public exampleService: ExampleService
-  ) {
-    // console.log("ExampleController constructor", this.exampleService);
-  }
+  constructor(public exampleService: ExampleService) {}
 
   @Get("a/:id")
   getA(@Req() res: Response, @Query() query: any, req: Request) {
