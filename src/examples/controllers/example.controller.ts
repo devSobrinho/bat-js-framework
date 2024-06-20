@@ -22,9 +22,7 @@ export class ExampleController {
     this.getB(res, req);
   }
 
-  getBas(...args: any[]) {
-    // console.log(args[0], args[1]);
-  }
+  getBas(...args: any[]) {}
 
   @Delete("c")
   deleteC(@Res() res: Response, @Req() req: Request) {

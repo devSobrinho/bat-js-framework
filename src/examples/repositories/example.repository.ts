@@ -27,9 +27,7 @@ export class ExampleRepository {
 
 @Injectable()
 export class Connection {
-  constructor() {
-    // console.log("Connection constructor");
-  }
+  constructor() {}
 
   connect() {
     return "Connection connect";
