@@ -1,5 +1,3 @@
-import "reflect-metadata";
-
 import { RouteHandlerConfigurator } from "../../configs/route-handler-configurator.config";
 
 export function Get(pathArgs: string = "/") {

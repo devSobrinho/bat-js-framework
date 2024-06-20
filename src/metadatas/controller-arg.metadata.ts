@@ -1,5 +1,3 @@
-import "reflect-metadata";
-
 type TMetadataValueItem = Map<number, Record<string, any> | undefined>;
 
 export const generationArgControllerKeyMetadata = (

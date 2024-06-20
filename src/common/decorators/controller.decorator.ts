@@ -1,6 +1,4 @@
-import "reflect-metadata";
-
-import { dependencyContainerInstance } from "@Core/dependencies/container.dependency";
+import { dependencyContainerInstance } from "@/core/dependencies/container.dependency";
 
 import { initControllerMapper } from "../../metadatas/router.metadata";
 

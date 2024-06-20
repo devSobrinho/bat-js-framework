@@ -1,5 +1,3 @@
-import "reflect-metadata";
-
 import { dependencyContainerInstance } from "core/dependencies/container.dependency";
 
 export function Injectable() {

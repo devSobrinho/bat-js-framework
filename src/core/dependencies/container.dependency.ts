@@ -1,5 +1,3 @@
-import "reflect-metadata";
-
 export class DependencyContainer {
   static dependencies = new Map();
   private static instances: Map<any, any> = new Map();
