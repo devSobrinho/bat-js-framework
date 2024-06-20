@@ -17,9 +17,12 @@ import {
 } from "@/metadatas/router.metadata";
 import { ExampleController } from "@/examples/controllers/example.controller";
 import { OtherController } from "@/examples/controllers/other.controller";
+import Debug from "debug";
 // import "@/examples/controllers/example.controller";
 // import "@/examples/controllers/other.controller";
 // Array para armazenar informações sobre as rotas
+const debug = Debug("app:register-routes");
+
 export const routeMetadata: {
   path: string;
   target: any;
@@ -31,14 +34,13 @@ export const routeMetadata: {
 export function registerRoutes(app: Express) {
   // Initialize all controllers
   [ExampleController, OtherController].map((controller) => {
-    console.log(`Init [CONTROLLER] FORA: ${controller.name}`);
+    `Init [CONTROLLER] FORA: ${controller.name}`;
   });
 
   const allRoutesMapper = getRouterMapper();
-  // console.log("allRoutesMapper", allRoutesMapper);
 
   allRoutesMapper.forEach((controllerData, key) => {
-    console.log(`Init [CONTROLLER]: ${key.name}`);
+    debug(`Init [CONTROLLER]: ${key.name}`);
     const controllerRoot = controllerData.get(CONTROLLER_ROOT_KEY);
 
     if (!controllerRoot) return;
@@ -74,7 +76,7 @@ export function registerRoutes(app: Express) {
         }
       });
 
-      console.log(
+      debug(
         `Register-Router [CREATE]: ${type.toLocaleUpperCase()} ${fullPath}`
       );
     });
