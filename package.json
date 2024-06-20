@@ -4,9 +4,9 @@
   "main": "index.js",
   "scripts": {
     "prebuild": "rimraf dist",
-    "build": "swc src -d dist && yarn tsc",
-    "start": "node dist/app.js",
-    "dev": "nodemon --exec 'swc src/app.ts'",
+    "build": "swc src -d dist --strip-leading-paths",
+    "start": "node -r tsconfig-paths/register dist/app.js",
+    "dev": "nodemon src/app.ts",
     "plop": "plop",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -27,6 +27,7 @@
     "typescript": "^5.4.5"
   },
   "devDependencies": {
+    "@swc-node/register": "^1.9.2",
     "@swc/cli": "^0.3.12",
     "@swc/core": "^1.6.3",
     "@types/cors": "^2.8.17",
