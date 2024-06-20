@@ -1,25 +1,24 @@
-import "reflect-metadata";
-
-import { BODY_PREFIX_KEY } from "@Common/decorators/body.decorator";
-import { PARAM_PREFIX_KEY } from "@Common/decorators/param.decorator";
-import { QUERY_PREFIX_KEY } from "@Common/decorators/query.decorator";
-import { REQ_PREFIX_KEY } from "@Common/decorators/req.decorator";
-import { RES_PREFIX_KEY } from "@Common/decorators/res.decorator";
-import { dependencyContainerInstance } from "@Core/dependencies/container.dependency";
+import { BODY_PREFIX_KEY } from "@/common/decorators/body.decorator";
+import { PARAM_PREFIX_KEY } from "@/common/decorators/param.decorator";
+import { QUERY_PREFIX_KEY } from "@/common/decorators/query.decorator";
+import { REQ_PREFIX_KEY } from "@/common/decorators/req.decorator";
+import { RES_PREFIX_KEY } from "@/common/decorators/res.decorator";
+import { dependencyContainerInstance } from "@/core/dependencies/container.dependency";
 import { Express, Request, Response } from "express";
 import {
   generationArgControllerKeyMetadata,
   getArgControllerMetadata,
-} from "metadatas/controller-arg.metadata";
+} from "@/metadatas/controller-arg.metadata";
 
-import { TExecAppMethods } from "../configs/route-handler-configurator.config";
+import { TExecAppMethods } from "@/configs/route-handler-configurator.config";
 import {
   CONTROLLER_ROOT_KEY,
   getRouterMapper,
-} from "../metadatas/router.metadata";
-import { ExampleController } from "examples/controllers/example.controller";
-import { OtherController } from "examples/controllers/other.controller";
-
+} from "@/metadatas/router.metadata";
+import { ExampleController } from "@/examples/controllers/example.controller";
+import { OtherController } from "@/examples/controllers/other.controller";
+// import "@/examples/controllers/example.controller";
+// import "@/examples/controllers/other.controller";
 // Array para armazenar informações sobre as rotas
 export const routeMetadata: {
   path: string;
@@ -31,9 +30,13 @@ export const routeMetadata: {
 // Função para registrar todas as rotas no app
 export function registerRoutes(app: Express) {
   // Initialize all controllers
-  [ExampleController, OtherController];
+  [ExampleController, OtherController].map((controller) => {
+    console.log(`Init [CONTROLLER] FORA: ${controller.name}`);
+  });
 
   const allRoutesMapper = getRouterMapper();
+  // console.log("allRoutesMapper", allRoutesMapper);
+
   allRoutesMapper.forEach((controllerData, key) => {
     console.log(`Init [CONTROLLER]: ${key.name}`);
     const controllerRoot = controllerData.get(CONTROLLER_ROOT_KEY);

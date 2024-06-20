@@ -1,5 +1,5 @@
-import { Injectable } from "@Common/decorators/injectable.decorator";
-import { ExampleRepository } from "examples/repositories/example.repository";
+import { Injectable } from "@/common/decorators/injectable.decorator";
+import { ExampleRepository } from "@/examples/repositories/example.repository";
 import { Request, Response } from "express";
 
 @Injectable()

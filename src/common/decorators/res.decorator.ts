@@ -1,7 +1,7 @@
 import {
   generationArgControllerKeyMetadata,
   setArgControllerMetadata,
-} from "metadatas/controller-arg.metadata";
+} from "@/metadatas/controller-arg.metadata";
 
 export const RES_PREFIX_KEY = Symbol("express:res:");
 

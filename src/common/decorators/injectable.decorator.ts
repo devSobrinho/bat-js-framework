@@ -1,4 +1,4 @@
-import { dependencyContainerInstance } from "core/dependencies/container.dependency";
+import { dependencyContainerInstance } from "@/core/dependencies/container.dependency";
 
 export function Injectable() {
   console.info(`@Injectable() INIT`);

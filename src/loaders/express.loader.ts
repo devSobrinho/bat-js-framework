@@ -3,9 +3,9 @@ import express, { NextFunction, Request, Response } from "express";
 import helmet from "helmet";
 import morgan from "morgan";
 
-import { app } from "../app";
-import { HttpException } from "../common/exceptions/http.exception";
-import { rateLimitConfig } from "../configs/rate-limit.config";
+import { app } from "@/app";
+import { HttpException } from "@/common/exceptions/http.exception";
+import { rateLimitConfig } from "@/configs/rate-limit.config";
 import { registerRoutes } from "./register-routes.loader";
 
 export class ExpressLoader {

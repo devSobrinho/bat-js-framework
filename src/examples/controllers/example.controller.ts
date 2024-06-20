@@ -1,11 +1,11 @@
-import { Controller } from "@Common/decorators/controller.decorator";
-import { Delete } from "@Common/decorators/delete.decorator";
-import { Get } from "@Common/decorators/get.decorator";
-import { Post } from "@Common/decorators/post.decorator";
-import { Query } from "@Common/decorators/query.decorator";
-import { Req } from "@Common/decorators/req.decorator";
-import { Res } from "@Common/decorators/res.decorator";
-import { ExampleService } from "examples/services/example.service";
+import { Controller } from "@/common/decorators/controller.decorator";
+import { Delete } from "@/common/decorators/delete.decorator";
+import { Get } from "@/common/decorators/get.decorator";
+import { Post } from "@/common/decorators/post.decorator";
+import { Query } from "@/common/decorators/query.decorator";
+import { Req } from "@/common/decorators/req.decorator";
+import { Res } from "@/common/decorators/res.decorator";
+import { ExampleService } from "@/examples/services/example.service";
 import { Request, Response } from "express";
 
 @Controller("/example")

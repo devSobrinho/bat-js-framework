@@ -1,4 +1,4 @@
-import { setDataControllerMapper } from "../metadatas/router.metadata";
+import { setDataControllerMapper } from "@/metadatas/router.metadata";
 
 export type TExecAppMethods = "get" | "post" | "put" | "patch" | "delete";
 

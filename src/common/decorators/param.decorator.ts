@@ -1,7 +1,7 @@
 import {
   generationArgControllerKeyMetadata,
   setArgControllerMetadata,
-} from "metadatas/controller-arg.metadata";
+} from "@/metadatas/controller-arg.metadata";
 
 export const PARAM_PREFIX_KEY = Symbol("express:param:");
 

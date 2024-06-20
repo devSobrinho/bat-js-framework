@@ -1,14 +1,14 @@
-import { Body } from "@Common/decorators/body.decorator";
-import { Controller } from "@Common/decorators/controller.decorator";
-import { Delete } from "@Common/decorators/delete.decorator";
-import { Get } from "@Common/decorators/get.decorator";
-import { Param } from "@Common/decorators/param.decorator";
-import { Patch } from "@Common/decorators/patch.decorator";
-import { Post } from "@Common/decorators/post.decorator";
-import { Put } from "@Common/decorators/put.decorator";
-import { Query } from "@Common/decorators/query.decorator";
-import { Req } from "@Common/decorators/req.decorator";
-import { Res } from "@Common/decorators/res.decorator";
+import { Body } from "@/common/decorators/body.decorator";
+import { Controller } from "@/common/decorators/controller.decorator";
+import { Delete } from "@/common/decorators/delete.decorator";
+import { Get } from "@/common/decorators/get.decorator";
+import { Param } from "@/common/decorators/param.decorator";
+import { Patch } from "@/common/decorators/patch.decorator";
+import { Post } from "@/common/decorators/post.decorator";
+import { Put } from "@/common/decorators/put.decorator";
+import { Query } from "@/common/decorators/query.decorator";
+import { Req } from "@/common/decorators/req.decorator";
+import { Res } from "@/common/decorators/res.decorator";
 import { Request, Response } from "express";
 
 @Controller("/other")

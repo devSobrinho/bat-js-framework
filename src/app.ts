@@ -2,7 +2,7 @@ import "reflect-metadata";
 import "tsconfig-paths/register";
 import express from "express";
 import dotenv from "dotenv";
-import { ExpressLoader } from "./loaders/express.loader";
+import { ExpressLoader } from "@/loaders/express.loader";
 
 dotenv.config();
 

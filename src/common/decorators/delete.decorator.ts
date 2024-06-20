@@ -1,4 +1,4 @@
-import { RouteHandlerConfigurator } from "../../configs/route-handler-configurator.config";
+import { RouteHandlerConfigurator } from "@/configs/route-handler-configurator.config";
 
 export function Delete(pathArgs: string = "/") {
   return function (
