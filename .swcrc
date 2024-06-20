@@ -16,10 +16,10 @@
         "./*"
       ]
     },
-    "transform": {
-      "decoratorMetadata": true,
-      "legacyDecorator": true
-    },
+    // "transform": {
+    //   "decoratorMetadata": true,
+    //   "legacyDecorator": true
+    // },
     "target": "es2021",
     "loose": false,
     "externalHelpers": false,
