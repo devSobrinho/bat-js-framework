@@ -3,8 +3,8 @@
     "target": "ES6",
     "module": "commonjs",
     "outDir": "./dist",
-    "rootDir": "./src",
-    "baseUrl": ".",
+    "rootDir": ".",
+    "baseUrl": "./src",
     "strict": true,
     "esModuleInterop": true,
     "emitDecoratorMetadata": true,
@@ -12,12 +12,9 @@
     "emitDeclarationOnly": true,
     "paths": {
       "@/*": [
-        "./src/*"
+        "./*"
       ]
     },
-    "lib": [
-      "ES6"
-    ]
   },
   "include": [
     "src"
