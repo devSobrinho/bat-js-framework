@@ -10,6 +10,9 @@
   ],
   "ext": "*.ts,*.json",
   "execMap": {
-    "ts": "node -r tsconfig-paths/register -r @swc-node/register"
-  }
+    "ts": "DEBUG=express* node -r tsconfig-paths/register -r @swc-node/register"
+  },
+  "signal": "SIGTERM",
+  "quiet": true,
+  "verbose": false
 }
