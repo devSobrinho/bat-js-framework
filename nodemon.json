@@ -10,6 +10,6 @@
   ],
   "ext": "*.ts,*.json",
   "execMap": {
-    "ts": "ts-node --project tsconfig.json"
+    "ts": "node @swc-node/register"
   }
 }
