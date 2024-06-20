@@ -4,25 +4,19 @@
     "module": "commonjs",
     "outDir": "./dist",
     "rootDir": "./src",
-    "baseUrl": "./src",
+    "baseUrl": ".",
     "strict": true,
     "esModuleInterop": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "paths": {
       "@/*": [
-        "/*"
-      ],
-      "@Common/*": [
-        "common/*"
-      ],
-      "@Config/*": [
-        "config/*"
-      ],
-      "@Core/*": [
-        "core/*"
-      ],
-    }
+        "./src/*"
+      ]
+    },
+    "lib": [
+      "ES6"
+    ]
   },
   "include": [
     "src"
