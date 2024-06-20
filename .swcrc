@@ -1,20 +1,30 @@
 {
   "$schema": "https://json.schemastore.org/swcrc",
+  "module": {
+    "type": "commonjs",
+    "resolveFully": true
+  },
   "jsc": {
     "parser": {
       "syntax": "typescript",
-      "tsx": true,
       "dynamicImport": true,
       "decorators": true
     },
-    "baseUrl": "./",
-    "transform": {},
-    "target": "es2021",
-    "loose": true,
+    "baseUrl": "./src",
     "paths": {
       "@/*": [
-        "./src/*"
+        "./*"
       ]
-    }
-  }
+    },
+    "transform": {
+      "decoratorMetadata": true,
+      "legacyDecorator": true
+    },
+    "target": "es2021",
+    "loose": false,
+    "externalHelpers": false,
+    "keepClassNames": false
+  },
+  "minify": false,
+  "sourceMaps": "inline"
 }
